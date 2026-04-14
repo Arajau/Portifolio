@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfólio | Dev de Jogos Digitais</title>
+  <meta name="description" content="Portfólio de projetos do curso de Jogos Digitais — HTML, CSS, Bootstrap e desenvolvimento web." />
+
+  <!-- Bootstrap 5 -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+
+  <!-- Google Fonts: Press Start 2P (display) + Share Tech Mono (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =============================================
+       VARIÁVEIS E RESET
+    ============================================= */
+    :root {
+      --pixel-black:  #0d0d1a;
+      --pixel-dark:   #1a1a2e;
+      --pixel-mid:    #16213e;
+      --pixel-card:   #0f3460;
+      --pixel-yellow: #f5c518;
+      --pixel-cyan:   #00f5ff;
+      --pixel-pink:   #ff2d78;
+      --pixel-green:  #39ff14;
+      --pixel-white:  #e8e8f0;
+      --pixel-gray:   #8888aa;
+      --font-pixel:   'Press Start 2P', monospace;
+      --font-mono:    'Share Tech Mono', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--pixel-dark); }
+    ::-webkit-scrollbar-thumb { background: var(--pixel-pink); image-rendering: pixelated; }
+
+    /* =============================================
+       BASE
+    ============================================= */
+    body {
+      background-color: var(--pixel-black);
+      color: var(--pixel-white);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      line-height: 1.75;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Fundo com grid pixel */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main, header, footer, section {
+      position: relative;
+      z-index: 1;
+    }
+
+    a {
+      color: var(--pixel-cyan);
+      text-decoration: none;
+      transition: color 0.2s, text-shadow 0.2s;
+    }
+    a:hover {
+      color: var(--pixel-yellow);
+      text-shadow: 0 0 8px var(--pixel-yellow);
+    }
+
+    /* =============================================
+       SKIP LINK (acessibilidade)
+    ============================================= */
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 1rem;
+      background: var(--pixel-yellow);
+      color: var(--pixel-black);
+      padding: 0.5rem 1rem;
+      font-family: var(--font-pixel);
+      font-size: 0.6rem;
+      z-index: 9999;
+      border: 3px solid var(--pixel-black);
+      transition: top 0.2s;
+    }
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    /* =============================================
+       TIPOGRAFIA PIXEL
+    ============================================= */
+    .pixel-title {
+      font-family: var(--font-pixel);
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      line-height: 1.8;
+      letter-spacing: 0.05em;
+    }
+
+    .pixel-subtitle {
+      font-family: var(--font-pixel);
+      font-size: clamp(0.5rem, 1.5vw, 0.75rem);
+      line-height: 2;
+    }
+
+    .section-label {
+      font-family: var(--font-pixel);
+      font-size: 0.6rem;
+      color: var(--pixel-cyan);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    /* =============================================
+       NAVBAR
+    ============================================= */
+    .navbar-pixel {
+      background: rgba(13, 13, 26, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 2px solid var(--pixel-pink);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-brand-pixel {
+      font-family: var(--font-pixel);
+      font-size: 0.75rem;
+      color: var(--pixel-yellow) !important;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .navbar-brand-pixel .logo-sprite {
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      background: var(--pixel-pink);
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      animation: rotateLogo 4s linear infinite;
+    }
+
+    @keyframes rotateLogo {
+      to { transform: rotate(360deg); }
+    }
+
+    .nav-link-pixel {
+      font-family: var(--font-pixel);
+      font-size: 0.55rem;
+      color: var(--pixel-white) !important;
+      padding: 0.5rem 0.75rem !important;
+      transition: color 0.2s, text-shadow 0.2s, background 0.2s;
+      border-radius: 0;
+      letter-spacing: 0.05em;
+    }
+
+    .nav-link-pixel:hover,
+    .nav-link-pixel:focus {
+      color: var(--pixel-cyan) !important;
+      text-shadow: 0 0 8px var(--pixel-cyan);
+    }
+
+    .navbar-toggler {
+      border: 2px solid var(--pixel-pink);
+      padding: 0.25rem 0.5rem;
+    }
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ff2d78' stroke-linecap='square' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 1rem 4rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 45, 120, 0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(0, 245, 255, 0.12) 0%, transparent 60%);
+    }
+
+    .hero-tag {
+      font-family: var(--font-pixel);
+      font-size: 0.55rem;
+      color: var(--pixel-pink);
+      letter-spacing: 0.2em;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    /* Cursor piscante */
+    .cursor-blink {
+      display: inline-block;
+      width: 14px;
+      height: 1.4em;
+      background: var(--pixel-yellow);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+      margin-left: 4px;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-desc {
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      color: var(--pixel-gray);
+      max-width: 540px;
+      margin: 1.5rem auto 2.5rem;
+    }
+
+    /* Botões pixel-art */
+    .btn-pixel {
+      font-family: var(--font-pixel);
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      padding: 0.75rem 1.5rem;
+      border: 3px solid;
+      border-radius: 0;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.1s, box-shadow 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-pixel::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      right: -6px;
+      width: 100%;
+      height: 100%;
+      border: 3px solid;
+      border-color: inherit;
+      opacity: 0.4;
+      z-index: -1;
+      transition: all 0.1s;
+    }
+    .btn-pixel:hover {
+      transform: translate(-2px, -2px);
+    }
+    .btn-pixel:hover::after {
+      bottom: -8px;
+      right: -8px;
+    }
+    .btn-pixel:active {
+      transform: translate(2px, 2px);
+    }
+    .btn-pixel:active::after {
+      bottom: -4px;
+      right: -4px;
+    }
+
+    .btn-pixel-primary {
+      background: var(--pixel-pink);
+      border-color: var(--pixel-pink);
+      color: var(--pixel-white);
+    }
+    .btn-pixel-primary:hover { color: var(--pixel-white); }
+
+    .btn-pixel-outline {
+      background: transparent;
+      border-color: var(--pixel-cyan);
+      color: var(--pixel-cyan);
+    }
+    .btn-pixel-outline:hover { color: var(--pixel-cyan); }
+
+    /* Sprite do personagem hero */
+    .hero-sprite-wrap {
+      margin-bottom: 2rem;
+    }
+    .hero-photo {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border: 4px solid var(--pixel-cyan);
+      box-shadow: 0 0 16px rgba(0, 245, 255, 0.35);
+      border-radius: 8px;
+    }
+
+    /* =============================================
+       SEÇÕES GERAIS
+    ============================================= */
+    .section-dark {
+      background: var(--pixel-dark);
+      padding: 5rem 0;
+    }
+    .section-mid {
+      background: var(--pixel-mid);
+      padding: 5rem 0;
+    }
+
+    .section-divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--pixel-pink), var(--pixel-cyan), transparent);
+      margin: 0;
+    }
+
+    /* =============================================
+       SOBRE MIM
+    ============================================= */
+    .about-card {
+      background: var(--pixel-card);
+      border: 2px solid var(--pixel-cyan);
+      padding: 2rem;
+      position: relative;
+    }
+    .about-card::before {
+      content: '> SOBRE_MIM.EXE';
+      position: absolute;
+      top: -1rem;
+      left: 1rem;
+      background: var(--pixel-dark);
+      color: var(--pixel-green);
+      font-family: var(--font-pixel);
+      font-size: 0.5rem;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--pixel-green);
+    }
+
+    /* Avatar pixel art */
+    .pixel-avatar {
+      width: 120px;
+      height: 120px;
+      image-rendering: pixelated;
+      border: 4px solid var(--pixel-pink);
+      background: var(--pixel-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      flex-shrink: 0;
+    }
+
+    /* Tags de skill */
+    .skill-tag {
+      font-family: var(--font-pixel);
+      font-size: 0.45rem;
+      padding: 0.35rem 0.65rem;
+      border: 1px solid;
+      display: inline-block;
+      margin: 0.2rem;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      cursor: default;
+    }
+    .skill-tag:hover {
+      transform: scale(1.05);
+    }
+    .skill-tag-cyan  { border-color: var(--pixel-cyan);  color: var(--pixel-cyan); }
+    .skill-tag-cyan:hover { background: var(--pixel-cyan); color: var(--pixel-black); }
+
+    .skill-tag-pink  { border-color: var(--pixel-pink);  color: var(--pixel-pink); }
+    .skill-tag-pink:hover { background: var(--pixel-pink); color: var(--pixel-white); }
+
+    .skill-tag-yellow { border-color: var(--pixel-yellow); color: var(--pixel-yellow); }
+    .skill-tag-yellow:hover { background: var(--pixel-yellow); color: var(--pixel-black); }
+
+    .skill-tag-green { border-color: var(--pixel-green); color: var(--pixel-green); }
+    .skill-tag-green:hover { background: var(--pixel-green); color: var(--pixel-black); }
+
+    /* =============================================
+       PROJETOS
+    ============================================= */
+    .project-card {
+      background: var(--pixel-card);
+      border: 2px solid var(--pixel-gray);
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .project-card:hover {
+      border-color: var(--pixel-pink);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(255, 45, 120, 0.3);
+    }
+
+    .project-thumb {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .project-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.08) 0px,
+        rgba(0,0,0,0.08) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      pointer-events: none;
+    }
+
+    .project-thumb-1 { background: linear-gradient(135deg, #1a0533, #4a0e6b); }
+    .project-thumb-2 { background: linear-gradient(135deg, #001a33, #003366); }
+    .project-thumb-3 { background: linear-gradient(135deg, #1a2600, #3d5c00); }
+    .project-thumb-4 { background: linear-gradient(135deg, #330000, #660011); }
+    .project-thumb-5 { background: linear-gradient(135deg, #1a1000, #4d3300); }
+    .project-thumb-6 { background: linear-gradient(135deg, #001a1a, #004d4d); }
+
+    .project-body {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-title {
+      font-family: var(--font-pixel);
+      font-size: 0.6rem;
+      color: var(--pixel-yellow);
+      margin-bottom: 0.75rem;
+      line-height: 1.8;
+    }
+
+    .project-desc {
+      font-size: 0.85rem;
+      color: var(--pixel-gray);
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-tag {
+      font-family: var(--font-pixel);
+      font-size: 0.4rem;
+      padding: 0.2rem 0.4rem;
+      background: rgba(0,245,255,0.1);
+      border: 1px solid var(--pixel-cyan);
+      color: var(--pixel-cyan);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .project-link {
+      font-family: var(--font-pixel);
+      font-size: 0.45rem;
+      color: var(--pixel-white);
+      border: 1px solid var(--pixel-white);
+      padding: 0.3rem 0.6rem;
+      transition: all 0.2s;
+    }
+    .project-link:hover {
+      background: var(--pixel-white);
+      color: var(--pixel-black);
+      text-shadow: none;
+    }
+
+    /* =============================================
+       BARRA DE PROGRESSO HABILIDADES
+    ============================================= */
+    .skill-bar-wrap {
+      margin-bottom: 1.25rem;
+    }
+    .skill-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-pixel);
+      font-size: 0.5rem;
+      margin-bottom: 0.4rem;
+      color: var(--pixel-white);
+    }
+    .skill-bar-track {
+      height: 12px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid var(--pixel-gray);
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--bar-color) 0px,
+        var(--bar-color) 10px,
+        rgba(0,0,0,0.25) 10px,
+        rgba(0,0,0,0.25) 12px
+      );
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .skill-bar-fill.animate { width: var(--bar-width); }
+
+    /* =============================================
+       TIMELINE / EXPERIÊNCIA
+    ============================================= */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--pixel-pink) 0px,
+        var(--pixel-pink) 8px,
+        transparent 8px,
+        transparent 14px
+      );
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+    }
+    .timeline-item::before {
+      content: '▶';
+      position: absolute;
+      left: -2.05rem;
+      top: 0.1rem;
+      color: var(--pixel-cyan);
+      font-size: 0.7rem;
+    }
+
+    .timeline-date {
+      font-family: var(--font-pixel);
+      font-size: 0.45rem;
+      color: var(--pixel-pink);
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-title {
+      font-family: var(--font-pixel);
+      font-size: 0.6rem;
+      color: var(--pixel-yellow);
+      margin-bottom: 0.4rem;
+      line-height: 1.8;
+    }
+
+    .timeline-desc {
+      font-size: 0.85rem;
+      color: var(--pixel-gray);
+    }
+
+    /* =============================================
+       CONTATO
+    ============================================= */
+    .contact-card {
+      background: var(--pixel-card);
+      border: 2px solid var(--pixel-pink);
+      padding: 2.5rem;
+      text-align: center;
+      position: relative;
+    }
+    .contact-card::before {
+      content: '★ ENTRE EM CONTATO ★';
+      font-family: var(--font-pixel);
+      font-size: 0.4rem;
+      color: var(--pixel-yellow);
+      letter-spacing: 0.2em;
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .contact-link-item {
+      font-family: var(--font-pixel);
+      font-size: 0.5rem;
+      color: var(--pixel-white);
+      border: 2px solid var(--pixel-gray);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .contact-link-item:hover {
+      border-color: var(--pixel-cyan);
+      color: var(--pixel-cyan);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,245,255,0.2);
+      text-shadow: 0 0 6px var(--pixel-cyan);
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      background: var(--pixel-black);
+      border-top: 2px solid var(--pixel-pink);
+      padding: 2rem 0;
+      text-align: center;
+    }
+    .footer-text {
+      font-family: var(--font-pixel);
+      font-size: 0.45rem;
+      color: var(--pixel-gray);
+      line-height: 2.5;
+    }
+    .footer-heart {
+      color: var(--pixel-pink);
+      animation: heartbeat 1.2s ease-in-out infinite;
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    /* =============================================
+       DECORAÇÕES E ANIMAÇÕES
+    ============================================= */
+
+    /* Estrelas flutuantes */
+    .floating-star {
+      position: absolute;
+      font-size: 1rem;
+      animation: floatStar 6s ease-in-out infinite;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    @keyframes floatStar {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50%       { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    /* Contador de score */
+    .score-counter {
+      font-family: var(--font-pixel);
+      font-size: 0.5rem;
+      color: var(--pixel-yellow);
+      letter-spacing: 0.1em;
+    }
+
+    /* =============================================
+       RESPONSIVIDADE
+    ============================================= */
+    @media (max-width: 768px) {
+      .hero { padding: 5rem 1rem 3rem; }
+      .about-card { padding: 1.5rem; }
+      .contact-card { padding: 1.5rem; }
+      .pixel-avatar { width: 80px; height: 80px; font-size: 2.5rem; }
+      .hero-photo { width: 96px; height: 96px; }
+      .btn-pixel { padding: 0.6rem 1rem; }
+      .hero { min-height: auto; padding-top: 6rem; }
+    }
+
+    @media (max-width: 480px) {
+      .pixel-title { font-size: 0.85rem; }
+      .contact-links { flex-direction: column; align-items: center; }
+    }
+
+    /* Focus visible para teclado */
+    :focus-visible {
+      outline: 3px solid var(--pixel-yellow);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ACESSIBILIDADE: pular para conteúdo principal -->
+  <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
+
+  <!-- =============================================
+       NAVEGAÇÃO
+  ============================================= -->
+  <nav class="navbar-pixel" role="navigation" aria-label="Navegação principal">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center w-100">
+
+        <!-- Logo / Brand -->
+        <a href="#hero" class="navbar-brand-pixel" aria-label="Voltar ao início do portfólio">
+          <span class="logo-sprite" aria-hidden="true"></span>
+          GAMEDEV.EXE
+        </a>
+
+        <!-- Botão toggler mobile -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMenu"
+          aria-controls="navMenu"
+          aria-expanded="false"
+          aria-label="Abrir menu de navegação"
+          style="background: transparent;"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links de navegação -->
+        <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+          <ul class="navbar-nav gap-1" role="list">
+            <li class="nav-item">
+              <a href="#sobre"    class="nav-link-pixel" aria-label="Ir para a seção Sobre mim">SOBRE</a>
+            </li>
+            <li class="nav-item">
+              <a href="#projetos" class="nav-link-pixel" aria-label="Ir para a seção Projetos">PROJETOS</a>
+            </li>
+            <li class="nav-item">
+              <a href="#skills"   class="nav-link-pixel" aria-label="Ir para a seção Habilidades">SKILLS</a>
+            </li>
+            <li class="nav-item">
+              <a href="#contato"  class="nav-link-pixel" aria-label="Ir para a seção Contato">CONTATO</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- =============================================
+       CONTEÚDO PRINCIPAL
+  ============================================= -->
+  <main id="main-content">
+
+    <!-- ==================
+         HERO
+    =================== -->
+    <header id="hero" class="hero" role="banner">
+      <!-- Estrelas decorativas -->
+      <span class="floating-star" style="top:15%; left:8%; animation-delay:0s;"    aria-hidden="true">✦</span>
+      <span class="floating-star" style="top:25%; right:10%; animation-delay:1.5s;" aria-hidden="true">★</span>
+      <span class="floating-star" style="top:70%; left:5%;  animation-delay:3s;"   aria-hidden="true">✧</span>
+      <span class="floating-star" style="top:60%; right:7%; animation-delay:2s;"   aria-hidden="true">✦</span>
+
+      <div class="container">
+        <!-- Foto no lugar do sprite -->
+        <div class="hero-sprite-wrap">
+          <img
+            src="C:\Users\Kaue2\Downloads\Protiflo\assets\foto.png"
+            alt="Foto de perfil"
+            class="hero-photo"
+            loading="lazy"
+          />
+        </div>
+
+        <span class="hero-tag" aria-hidden="true">★ PLAYER 1 - PRESS START ★</span>
+
+        <!-- H1 OBRIGATÓRIO (único na página) -->
+        <h1 class="pixel-title text-white mb-3">
+          OLÁ, EU SOU<br>
+          <span style="color: var(--pixel-yellow);">KAUE</span>
+          <span class="cursor-blink" aria-hidden="true"></span>
+        </h1>
+
+        <p class="hero-desc">
+          Estudante de <strong style="color:var(--pixel-cyan);">Jogos Digitais</strong> Gosto de Criar, Experiencias, ultilizando
+          a <strong style="color:var(--pixel-pink);">Unity</strong> esses é o meu portifolio.
+        </p>
+
+        <div class="d-flex flex-wrap gap-3 justify-content-center">
+          <a href="#projetos" class="btn-pixel btn-pixel-primary" aria-label="Ver meus projetos">
+            ▶ VER PROJETOS
+          </a>
+          <a href="#contato" class="btn-pixel btn-pixel-outline" aria-label="Entrar em contato">
+            ✉ CONTATO
+          </a>
+        </div>
+
+        <p class="score-counter mt-4" aria-label="Número de projetos completados">
+          SCORE: 003 PROJETOS COMPLETADOS
+        </p>
+      </div>
+    </header>
+
+    <hr class="section-divider" aria-hidden="true" />
+
+    <!-- ==================
+         SOBRE MIM
+    =================== -->
+    <section id="sobre" class="section-dark" aria-labelledby="sobre-titulo">
+      <div class="container">
+        <p class="section-label" aria-hidden="true">// FASE 01</p>
+        <h2 id="sobre-titulo" class="pixel-subtitle mb-4" style="color:var(--pixel-cyan);">
+          SOBRE MIM
+        </h2>
+
+        <div class="about-card">
+          <div class="d-flex flex-column flex-md-row gap-4 align-items-start">
+
+            <!-- Avatar -->
+            <div class="pixel-avatar" role="img" aria-label="Avatar do desenvolvedor em estilo pixel art">
+              🎮
+            </div>
+
+            <!-- Texto -->
+            <div class="flex-fill">
+              <p style="color:var(--pixel-white); margin-bottom:1rem;">
+                Olá! Sou um estudante do curso de <strong style="color:var(--pixel-yellow);">Jogos Digitais</strong>,
+                com foco em desenvolvimento de jogos 2D/3D. Focado em programação Unity, C#,
+                game design e código limpo.
+              </p>
+              <p style="color:var(--pixel-gray); margin-bottom:1.5rem;">
+                Neste portfólio você encontra meus projetos desenvolvidos ao longo do curso e game jam.
+              </p>
+
+              <!-- Tags de skills -->
+              <div role="list" aria-label="Tecnologias e habilidades">
+                <span class="skill-tag skill-tag-cyan"   role="listitem">C#</span>
+                <span class="skill-tag skill-tag-pink"   role="listitem">Blender</span>
+                <span class="skill-tag skill-tag-cyan"   role="listitem">Game Design</span>
+                <span class="skill-tag skill-tag-pink"   role="listitem">Pixel Art</span>
+                <span class="skill-tag skill-tag-yellow" role="listitem">Unity</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true" />
+
+    <!-- ==================
+         PROJETOS
+    =================== -->
+    <section id="projetos" class="section-mid" aria-labelledby="projetos-titulo">
+      <div class="container">
+        <p class="section-label" aria-hidden="true">// FASE 02</p>
+        <h2 id="projetos-titulo" class="pixel-subtitle mb-4" style="color:var(--pixel-pink);">
+          PROJETOS
+        </h2>
+
+        <!-- Grid de projetos (Bootstrap) -->
+        <div class="row g-4">
+
+          <!-- Projeto 1 -->
+          <article class="col-12 col-sm-6 col-lg-4">
+            <div class="project-card" role="article">
+              <div class="project-thumb project-thumb-1">
+                <img src="assets/projetos/Contrato Fatal.png" alt="Capa do projeto Contrato Fatal" loading="lazy" />
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">CONTRATO<br>FATAL</h3>
+                <p class="project-desc">
+                  Jogo de terror, ambientado em uma casa, onde o jogador deve limpar uma casa antes do dono retornar.
+                </p>
+                <div class="project-tags" aria-label="Tecnologias usadas">
+                  <span class="project-tag">Unity</span>
+                  <span class="project-tag">C#</span>
+                  <span class="project-tag">Blender</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://pederriiki.itch.io/contrato-fatal"
+                    class="project-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Abrir página do projeto Contrato Fatal no itch.io"
+                  >
+                    VER NO ITCH.IO
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Projeto 2 -->
+          <article class="col-12 col-sm-6 col-lg-4">
+            <div class="project-card" role="article">
+              <div class="project-thumb project-thumb-2">
+                <img src="assets/projetos/Cloud.jpeg" alt="Capa do projeto Cloud" loading="lazy" />
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">Cloud<br></h3>
+                <p class="project-desc">
+                  Um jogo de labirinto onirico, onde um trabalhador cansado, que dormiu em sua mesa deve sair do pesadelo do proprio trabalho.
+                </p>
+                <div class="project-tags" aria-label="Tecnologias usadas">
+                  <span class="project-tag">Unity</span>
+                  <span class="project-tag">C#</span>
+                  <span class="project-tag">Aseprite</span>
+                </div>
+                <div class="project-links">
+                  <a
+                    href="https://murilloyonamine.itch.io/cloud"
+                    class="project-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Abrir página do projeto Cloud no itch.io"
+                  >
+                    VER NO ITCH.IO
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Projeto 3 -->
+          <article class="col-12 col-sm-6 col-lg-4">
+            <div class="project-card" role="article">
+              <div class="project-thumb project-thumb-3">
+                <img src="assets/projetos/Urutau.png" alt="Capa do projeto Urutau" loading="lazy" />
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">URUTAU<br></h3>
+                <p class="project-desc">
+                  Um jogo de plataforma onde o indigena Urutau deve salvar seu mundo da destruição.
+                </p>
+                <div class="project-tags" aria-label="Tecnologias usadas">
+                  <span class="project-tag">Unity</span>
+                  <span class="project-tag">C#</span>
+                  <span class="project-tag">Aseprite</span>
+                </div>
+                <div class="project-links">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div><!-- /.row -->
+      </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true" />
+
+    <!-- ==================
+         SKILLS
+    =================== -->
+    <section id="skills" class="section-dark" aria-labelledby="skills-titulo">
+      <div class="container">
+        <p class="section-label" aria-hidden="true">// FASE 03</p>
+        <h2 id="skills-titulo" class="pixel-subtitle mb-4" style="color:var(--pixel-green);">
+          HABILIDADES
+        </h2>
+
+        <div class="row g-5">
+
+          <!-- Barras de habilidades -->
+          <div class="col-12 col-md-6" aria-label="Nível de proficiência nas tecnologias">
+
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label">
+                <span>Unity</span><span>85%</span>
+              </div>
+              <div class="skill-bar-track" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Unity: 85%">
+                <div class="skill-bar-fill" style="--bar-color:var(--pixel-pink); --bar-width:85%;"></div>
+              </div>
+            </div>
+
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label">
+                <span>C#</span><span>75%</span>
+              </div>
+              <div class="skill-bar-track" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" aria-label="C#: 75%">
+                <div class="skill-bar-fill" style="--bar-color:var(--pixel-cyan); --bar-width:75%;"></div>
+              </div>
+            </div>
+
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label">
+                <span>Blender</span><span>70%</span>
+              </div>
+              <div class="skill-bar-track" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="Blender: 70%">
+                <div class="skill-bar-fill" style="--bar-color:var(--pixel-yellow); --bar-width:70%;"></div>
+              </div>
+            </div>
+
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label">
+                <span>Game Design</span><span>65%</span>
+              </div>
+              <div class="skill-bar-track" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" aria-label="Game Design: 65%">
+                <div class="skill-bar-fill" style="--bar-color:var(--pixel-green); --bar-width:65%;"></div>
+              </div>
+            </div>
+
+            <div class="skill-bar-wrap">
+              <div class="skill-bar-label">
+                <span>Pixel Art</span><span>50%</span>
+              </div>
+              <div class="skill-bar-track" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" aria-label="Blender: 70%">
+                <div class="skill-bar-fill" style="--bar-color:var(--pixel-card); --bar-width:50%;"></div>
+              </div>
+            </div>
+
+
+          
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider" aria-hidden="true" />
+
+    <!-- ==================
+         CONTATO
+    =================== -->
+    <section id="contato" class="section-mid" aria-labelledby="contato-titulo">
+      <div class="container">
+        <p class="section-label" aria-hidden="true">// FASE FINAL</p>
+        <h2 id="contato-titulo" class="pixel-subtitle mb-4" style="color:var(--pixel-yellow);">
+          CONTATO
+        </h2>
+
+        <div class="contact-card" role="region" aria-label="Informações de contato">
+          <p style="color:var(--pixel-gray); font-size:0.9rem; max-width:480px; margin:0 auto;">
+            Vamos conversar! Se quiser trocar uma ideia sobre jogos, design ou código,
+            pode me chamar em qualquer uma das redes abaixo.
+          </p>
+
+          <nav class="contact-links" aria-label="Links de contato e redes sociais">
+            <a
+              href="mailto:seuemail@exemplo.com"
+              class="contact-link-item"
+              aria-label="Enviar e-mail para seuemail@exemplo.com"
+            >
+              ✉ EMAIL
+            </a>
+            <a
+              href="https://github.com/Arajau"
+              class="contact-link-item"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ver perfil no GitHub (abre em nova aba)"
+            >
+              ⌨ GITHUB
+            </a>
+            <a
+              href="https://www.linkedin.com/in/kaue-araujo-dos-santos-7b1912203/"
+              class="contact-link-item"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ver perfil no LinkedIn (abre em nova aba)"
+            >
+              💼 LINKEDIN
+            </a>
+            <a
+              href="https://arajau.itch.io/"
+              class="contact-link-item"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ver jogos no itch.io (abre em nova aba)"
+            >
+              🎮 ITCH.IO
+            </a>
+          </nav>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =============================================
+       RODAPÉ
+  ============================================= -->
+  <footer role="contentinfo">
+    <div class="container">
+      <p class="footer-text">
+        © 2025 SEU NOME — CURSO DE JOGOS DIGITAIS
+        <br>
+        FEITO COM <span class="footer-heart" aria-label="amor">♥</span> E MUITOS CONTINUES
+        <br>
+        <span style="color:var(--pixel-cyan);">PUBLICADO NO GITHUB PAGES</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmAgpFBwkSbQp/5X62sRkW4ljRPe"
+    crossorigin="anonymous"
+  ></script>
+
+  <script>
+    /* =============================================
+       Animação das barras de progresso (Intersection Observer)
+       — dispara somente quando a seção entra na viewport
+    ============================================= */
+    const fills = document.querySelectorAll('.skill-bar-fill');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    fills.forEach(fill => observer.observe(fill));
+
+    /* =============================================
+       Rolagem suave nos links da nav
+    ============================================= */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+
+</body>
+</html>
